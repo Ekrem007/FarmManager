@@ -1,0 +1,126 @@
+<div class="container mt-4">
+  <div class="row">
+
+    <div class="col-md-6">
+      <!-- Tablo 1 -->
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Açıklama</th>
+              <th scope="col">Gider Türü</th>
+              <th scope="col">Gider Miktarı</th>
+              <th scope="col">Tarih</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let expanse of expanses">
+              <th scope="row">{{ expanse.id }}</th>
+              <td>{{ expanse.description }}</td>
+              <td>{{ expanse.expanseType }}</td>
+              <td>{{ expanse.amount }}</td>
+              <td>{{ (expanse.createdAt || expanse.updatedAt) | date: 'dd/MM/yyyy ' }}</td>
+              <td>
+                <button class="btn btn-warning btn-sm" (click)="openEditModal(expanse)">Düzenle</button>
+              </td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="deleteExpanse(expanse.id)">Sil</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tablo 2 -->
+    <div class="col-md-6">
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Açıklama</th>
+              <th scope="col">Gider Türü</th>
+              <th scope="col">Gider Miktarı</th>
+              <th scope="col">Tarih</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let expanse of filteredExpanses">
+              <th scope="row">{{ expanse.id }}</th>
+              <td>{{ expanse.description }}</td>
+              <td>{{ expanse.expanseType }}</td>
+              <td>{{ expanse.amount }}</td>
+              <td>{{ (expanse.createdAt || expanse.updatedAt) | date: 'dd/MM/yyyy ' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  <!-- Form Alanı -->
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <!-- Gider Ekle Formu -->
+      <div class="form-container">
+        <label for="descriptionInput" class="form-label text-white">Gider Ekle</label>
+        <div class="form-content">
+          <input type="text" class="form-control" [(ngModel)]="newDescription" id="descriptionInput" placeholder="Açıklama">
+          <input type="number" class="form-control" [(ngModel)]="newAmount" id="amountInput" placeholder="Gider Tutarı">
+          <select class="form-control" [(ngModel)]="selectedExpanseType">
+            <option [ngValue]="undefined" disabled>Gider türünü seçiniz</option>
+            <option *ngFor="let type of expanseTypes" [value]="type">{{ type }}</option>
+          </select>
+          <button class="btn btn-primary" (click)="addExpanse()">Ekle</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <!-- Gider Getir Formu -->
+     
+<div class="form-container">
+  <label for="startDateInput" class="form-label text-white">Gider Getir</label>
+  <div class="form-content">
+    <input type="date" class="form-control" [(ngModel)]="startDate" id="startDateInput">
+    <input type="date" class="form-control" [(ngModel)]="endDate" id="endDateInput">
+    <select class="form-control" [(ngModel)]="selectedExpanseType">
+      <option [ngValue]="undefined" disabled>Gider türünü seçiniz</option>
+      <option *ngFor="let type of expanseTypes" [value]="type">{{ type }}</option>
+    </select>
+    <button class="btn btn-primary" (click)="updateFilteredExpanses()">Getir</button>
+    <div class="total-amount">
+      Toplam:<span>{{ totalAmount  }}</span>
+    </div>
+  </div>
+  
+</div>
+
+  </div>
+</div>
+<div class="edit-form-container" *ngIf="selectedExpanse">
+  <h4>Gider Güncelle</h4>
+  <form (ngSubmit)="updateExpanse()">
+    <div class="form-group">
+      <label for="editDescriptionInput">Açıklama</label>
+      <input type="text" class="form-control" [(ngModel)]="selectedExpanse.description" id="editDescriptionInput" name="description" required>
+    </div>
+    <div class="form-group">
+      <label for="editAmountInput">Gider Miktarı</label>
+      <input type="number" class="form-control" [(ngModel)]="selectedExpanse.amount" id="editAmountInput" name="amount" required>
+    </div>
+    <div class="form-group">
+      <label for="editExpanseTypeInput">Gider Türü</label>
+      <select class="form-control" [(ngModel)]="selectedExpanse.expanseType" id="editExpanseTypeInput" name="expanseType" required>
+        <option [ngValue]="undefined" disabled>Gider türünü seçiniz</option>
+        <option *ngFor="let type of expanseTypes" [value]="type">{{ type }}</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Güncelle</button>
+    <button type="button" class="btn btn-secondary" (click)="cancelEdit()">İptal</button>
+  </form>
+</div>
+

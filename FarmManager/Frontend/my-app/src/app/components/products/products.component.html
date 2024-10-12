@@ -1,0 +1,57 @@
+<div class="container">
+  <!-- Tablo Bölümü -->
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Ürün Adı</th>
+          <th scope="col">Toplam Kazanç</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <th scope="row">{{ product.id }}</th>
+          <td>{{ product.name }}</td>   
+          <td>{{ product.totalEarnings }}</td>     
+          <td>
+            <button class="btn btn-warning btn-sm" (click)="editProduct(product)">Düzenle</button>
+          </td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.id)">Sil</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </div>
+
+  <!-- Ürün Ekleme Formu -->
+  <div class="form-container">
+    <label for="productNameInput" class="form-label text-white">Ürün Ekle</label>
+    <div class="form-content">
+      <input type="text" class="form-control" [(ngModel)]="newProductName" id="productNameInput" placeholder="Ürün adı">
+      <button class="btn btn-primary" (click)="addProduct()">Ekle</button>
+    </div>
+  </div>
+
+
+ <!-- Düzenleme Formu -->
+<div class="modal" *ngIf="selectedProduct">
+  <div class="modal-content">
+    <h4>Ürün Güncelle</h4>
+    <form (ngSubmit)="updateProduct()">
+      <div class="form-group">
+        <label for="editProductNameInput">Ürün Adı:</label>
+        <input type="text" class="form-control" [(ngModel)]="selectedProduct.name" id="editProductNameInput" name="productName" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Güncelle</button>
+      <button type="button" class="btn btn-secondary" (click)="cancelEdit()">İptal</button>
+    </form>
+  </div>
+</div>
+
+
+

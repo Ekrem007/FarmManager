@@ -1,0 +1,109 @@
+<div class="container">
+    <!-- Tablo Bölümü -->
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Ürün</th>
+            <th scope="col">Şirket</th>
+            <th scope="col">Miktar</th>
+            <th scope="col">Miktar başına fiyat</th>
+            <th scope="col">Tarih</th>
+            <th scope="col">Kazanç</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sale of sales">
+            <th scope="row">{{ sale.id }}</th>
+            <td>{{ sale.product?.name}}</td>
+            <td>{{ sale.companyName }}</td>
+            <td>{{ sale.quantity }}</td>
+            <td>{{ sale.price }}</td>
+            <td>{{ (sale.createdAt || sale.updatedAt) | date: 'dd/MM/yyyy '  }}</td>
+            <td>{{ sale.totalSum }}</td>
+            <td>
+              <button class="btn btn-warning btn-sm"  (click)="editSale(sale)">Düzenle</button>
+            </td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="deleteSale(sale.id)">Sil</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+    </div>
+  
+      
+    <div class="form-container">
+      <label for="fruitSelect" class="form-label text-white">Ürün Satışı Gir</label>
+      <div class="form-content">
+        <select id="fruitSelect" name="fruit" [(ngModel)]="selectedProductName">
+          <option [ngValue]="null" disabled>Ürün Seçiniz</option>
+          <option *ngFor="let product of products" [ngValue]="product.name">{{ product.name }}</option>
+        </select>
+        <select id="companySelect" name="company" [(ngModel)]="selectedCompanyName">
+          <option [ngValue]="null" disabled>Şirket Seçiniz</option>
+          <option *ngFor="let company of companies" [ngValue]="company.name">{{ company.name }}</option>
+        </select>
+        <input type="number" class="form-control" id="quantityInput" [(ngModel)]="newSaleQuantity" placeholder="Miktar">
+        <input type="number" class="form-control" id="priceInput" [(ngModel)]="newSalePrice" placeholder="Miktar Başına Fiyat">
+        
+        <button class="btn btn-primary" (click)="addSale()">Ekle</button>
+      </div>
+    </div>
+    
+        
+      
+      
+      
+      
+      
+
+    <!-- Satış Güncelleme Formu -->
+    <div class="modal" *ngIf="selectedSale">
+      <div class="modal-content">
+        <!-- Modal İçeriği -->
+        <h4>Satış Güncelle</h4>
+        <form (ngSubmit)="updateSale()">
+          <!-- Form İçeriği -->
+          <!-- Ürün Adı Seçimi -->
+          <div class="form-group">
+            <label for="editProductNameSelect">Ürün Adı:</label>
+            <select id="editProductNameSelect" class="form-control" [(ngModel)]="selectedSale.productName" name="productName" required>
+              <option *ngFor="let product of products" [ngValue]="product.name">{{ product.name }}</option>
+            </select>
+            
+            
+          </div>
+          <!-- Şirket Adı Seçimi -->
+          <div class="form-group">
+            <label for="editCompanyNameSelect">Şirket Adı:</label>
+            <select id="editCompanyNameSelect" class="form-control" [(ngModel)]="selectedSale.companyName" name="companyName" required>
+              <option *ngFor="let company of companies" [ngValue]="company.name">{{ company.name }}</option>
+            </select>
+          </div>
+          <!-- Miktar -->
+          <div class="form-group">
+            <label for="editQuantityInput">Miktar:</label>
+            <input type="number" class="form-control" [(ngModel)]="selectedSale.quantity" id="editQuantityInput" name="quantity" required>
+          </div>
+          <!-- Fiyat -->
+          <div class="form-group">
+            <label for="editPriceInput">Fiyat:</label>
+            <input type="number" class="form-control" [(ngModel)]="selectedSale.price" id="editPriceInput" name="price" required>
+          </div>
+          <!-- Toplam Tutar -->
+          <div class="form-group">
+            <label for="editTotalSumInput">Toplam Tutar:</label>
+            <input type="number" class="form-control" [(ngModel)]="selectedSale.totalSum" id="editTotalSumInput" name="totalSum" required readonly>
+          </div>
+          <!-- Butonlar -->
+          <button type="submit" class="btn btn-primary">Güncelle</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()">İptal</button>
+        </form>
+      </div>
+    </div>
+    

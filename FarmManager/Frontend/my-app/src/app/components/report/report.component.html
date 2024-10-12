@@ -1,0 +1,87 @@
+<div class="container mt-4">
+    <div class="row">
+  
+      <div class="col-md-6">
+        <!-- Tablo 1 -->
+        <div class="table-container">
+            <table class="table" *ngIf="filteredSales && filteredSales.length > 0">
+                <thead >
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Ürün</th>
+                    <th scope="col">Şirket</th>
+                    <th scope="col">Miktar</th>
+                    <th scope="col">Miktar başına fiyat</th>
+                    <th scope="col">Tarih</th>
+                    <th scope="col">Kazanç</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let sale of filteredSales">
+                        <th scope="row">{{ sale.id }}</th>
+                        <td>{{ sale.product?.name }}</td>
+                        <td>{{ sale.companyName }}</td>
+                        <td>{{ sale.quantity }}</td>
+                        <td>{{ sale.price }}</td>
+                        <td>{{ (sale.createdAt || sale.updatedAt) | date: 'dd/MM/yyyy '  }}</td>
+                        <td>{{ sale.totalSum }}</td>
+                      </tr>
+                      
+                </tbody>
+              </table>
+        </div>
+      </div>
+  
+      <!-- Tablo 2 -->
+      <div class="col-md-6">
+        <div class="table-container">
+          <table class="table"  *ngIf="filteredExpanses && filteredExpanses.length > 0">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Açıklama</th>
+                <th scope="col">Gider Türü</th>
+                <th scope="col">Gider Miktarı</th>
+                <th scope="col">Tarih</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let expanse of filteredExpanses">
+                    <th scope="row">{{ expanse.id }}</th>
+                    <td>{{ expanse.description }}</td>
+                    <td>{{ expanse.expanseType }}</td>
+                    <td>{{ expanse.amount }}</td>
+                    <td>{{ (expanse.createdAt || expanse.updatedAt) | date: 'dd/MM/yyyy '  }}</td>
+                  </tr>
+                  
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+    <!-- Form Alanı -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+          <div class="form-container">
+            <label for="descriptionInput" class="form-label text-white">Aralık Seçin</label>
+            <div class="form-content">
+              <input type="date" class="form-control" [(ngModel)]="startDate" id="descriptionInput" placeholder="Açıklama">
+              <input type="date" class="form-control" [(ngModel)]="endDate" id="amountInput" placeholder="Gider Tutarı">
+              <button class="btn btn-primary"  (click)="filterData()">Getir</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="span-container">
+            <span>Satış: {{ totalRevenue }}</span>
+            <span>Gider: {{ totalExpense  }}</span>
+            <span>Bakiye: {{ balance  }}</span>
+          </div>          
+        </div>
+      </div>
+      
+  </div>
+  
+  
+  

@@ -1,0 +1,53 @@
+<div class="container">
+    <!-- Tablo Bölümü -->
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Şirket</th>
+            <th scope="col">Toplam Kazanç</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let company of companies">
+            <th scope="row">{{ company.id }}</th>
+            <td><a [routerLink]="['/companies', company.id]">{{ company.name }}</a></td>
+            <td>{{ company.totalEarnings }}</td>
+            <td>
+              <button class="btn btn-warning btn-sm" (click)="editCompany(company)">Düzenle</button>
+            </td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="deleteCompany(company.id)">Sil</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+    </div>
+  
+    <!-- Form Bölümü -->
+    <div class="form-container">
+      <label for="companyNameInput" class="form-label text-white">Şirket Ekle</label>
+      <div class="form-content">
+        <input type="text" class="form-control" [(ngModel)]="newCompanyName" id="companyNameInput" placeholder="Şirket adı">
+        <button class="btn btn-primary" (click)="addCompany()">Ekle</button>
+      </div>
+    </div>
+  
+    <!-- Düzenleme Formu -->
+    <div class="edit-form-container" *ngIf="selectedCompany">
+      <h4>Şirket Güncelle</h4>
+      <form (ngSubmit)="updateCompany()">
+        <div class="form-group">
+          <label for="editCompanyNameInput">Şirket Adı</label>
+          <input type="text" class="form-control" [(ngModel)]="selectedCompany.name" id="editCompanyNameInput" name="companyName" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">İptal</button>
+      </form>
+    </div>
+  </div>
+  

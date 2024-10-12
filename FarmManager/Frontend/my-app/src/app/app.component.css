@@ -1,0 +1,7 @@
+/* app.component.css */
+:host {
+    display: block;
+    background-color: #00215d;
+    height: 100vh;
+  }
+  

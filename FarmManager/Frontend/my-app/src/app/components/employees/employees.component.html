@@ -1,0 +1,96 @@
+<div class="container">
+    <!-- Tablo Bölümü -->
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Adı</th>
+            <th scope="col">Soyadı</th>
+            <th scope="col">Maaşı</th>
+            <th scope="col">Cinsiyeti</th>
+            <th scope="col">Pozisyonu</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of employees">
+            <th scope="row">{{ employee.id }}</th>
+            <td><a [routerLink]="['/employees', employee.id]">{{ employee.name }}</a></td>
+            <td>{{ employee.surname }}</td>
+            <td>{{ employee.salary }}</td>
+            <td>{{ employee.gender ? 'Erkek' : 'Kadın' }}</td>
+            <td>{{ employee.position }}</td>          
+            <td>
+              <button class="btn btn-warning btn-sm" (click)="editEmployee(employee)" >Düzenle</button>
+            </td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="deleteEmployee(employee.id)">Sil</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+    </div>
+  
+   <!-- Form Bölümü -->
+<div class="form-container">
+    <label for="companyNameInput" class="form-label text-white">Çalışan Ekle</label>
+    <div class="form-content">
+      <input type="text" class="form-control"[(ngModel)]="newEmployeeName"  id="employeeNameInput" placeholder="Çalışan adı">
+      <input type="text" class="form-control" [(ngModel)]="newEmployeeSurname" id="employeeSurnameInput" placeholder="Çalışan soyadı">
+      <input type="number" class="form-control" [(ngModel)]="newEmployeeSalary" id="employeeSalaryInput" placeholder="Çalışan Maaşı">
+      <input type="text" class="form-control" [(ngModel)]="newEmployeePosition" id="employeePositionInput" placeholder="Çalışan Pozisyonu">
+  
+      <div class="form-group">
+        <input type="radio" id="genderMale" [(ngModel)]="newEmployeeGender" name="employeeGender" value=true>
+        <label for="genderMale" class="text-white" style="display: inline; margin-right: 10px;">Erkek</label>
+        <input type="radio" id="genderFemale" [(ngModel)]="newEmployeeGender" name="employeeGender" value=false>
+        <label for="genderFemale" class="text-white" style="display: inline; margin-right: 10px;">Kadın</label>
+      </div>
+  
+      <button class="btn btn-primary" (click)="addEmployee()">Ekle</button>
+    </div>
+  </div>
+  
+  
+     
+  <!-- Düzenleme Formu -->
+  <div class="modal" *ngIf="selectedEmployee">
+    <div class="modal-content">
+      <h4>Çalışan Güncelle</h4>
+      <form (ngSubmit)="updateEmployee()">
+        <div class="form-group">
+          <label for="editEmployeeNameInput">Çalışan Adı:</label>
+          <input type="text" class="form-control" [(ngModel)]="selectedEmployee.name" id="editEmployeeNameInput" name="employeeName" required>
+        </div>
+        <div class="form-group">
+          <label for="editEmployeeSurnameInput">Çalışan Soyadı:</label>
+          <input type="text" class="form-control" [(ngModel)]="selectedEmployee.surname" id="editEmployeeSurnameInput" name="employeeSurname" required>
+        </div>
+        <div class="form-group">
+          <label for="editEmployeeSalaryInput">Maaşı:</label>
+          <input type="number" class="form-control" [(ngModel)]="selectedEmployee.salary" id="editEmployeeSalaryInput" name="employeeSalary" required>
+        </div>
+        <div class="form-group">
+          <label for="editEmployeePositionInput">Pozisyonu:</label>
+          <input type="text" class="form-control" [(ngModel)]="selectedEmployee.position" id="editEmployeePositionInput" name="employeePosition" required>
+        </div>
+        <div class="form-group">
+          <label>Cinsiyeti:</label>
+          <div class="form-group-radio">
+            <input type="radio" id="editGenderMale" [(ngModel)]="selectedEmployee.gender" name="employeeGender" [value]="true">
+            <label for="editGenderMale" class="text-dark">Erkek</label>
+            <input type="radio" id="editGenderFemale" [(ngModel)]="selectedEmployee.gender" name="employeeGender" [value]="false">
+            <label for="editGenderFemale" class="text-dark">Kadın</label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">İptal</button>
+      </form>
+    </div>
+  </div>
+  
+
+  
